@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일\NonThread">
+      <UniqueIdentifier>{6bf50e7f-be3b-4b55-8d64-406f87e4d993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Thread">
+      <UniqueIdentifier>{042d7af7-c005-4511-9c63-4f199e1451de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Micro">
+      <UniqueIdentifier>{757dc357-d9fc-43c2-a8b0-f7590c5714c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Pool">
+      <UniqueIdentifier>{107d02ca-e820-4ee4-817d-ab3dbfc11884}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ThreadTest.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NonThread.hpp">
+      <Filter>헤더 파일\NonThread</Filter>
+    </ClInclude>
+    <ClInclude Include="Micro.hpp">
+      <Filter>헤더 파일\Micro</Filter>
+    </ClInclude>
+    <ClInclude Include="Pool.hpp">
+      <Filter>헤더 파일\Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="LoopThread.hpp">
+      <Filter>헤더 파일\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MainHeader.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EventThread.hpp">
+      <Filter>헤더 파일\Thread</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
