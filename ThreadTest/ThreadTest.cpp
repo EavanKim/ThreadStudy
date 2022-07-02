@@ -22,14 +22,31 @@ int main()
 
 	int LoopMax = 10000;
 
+	printf("LoopDelay Run \n");
 	LoopCheck(LoopMax, &LoopFuncDelay, &LoopDelay);
-	//LoopWaitCreateThreadCheck(10, &LoopWaitCreateThreadFuncDelay, &LoopWaitCreateThreadDelay);
-	//LoopWaitBeginThreadCheck(10, &LoopWaitBeginThreadFuncDelay, &LoopWaitBeginThreadDelay);
-	//EventWaitCreateThreadCheck(LoopMax, &EventWaitCreateThreadFuncDelay, &EventWaitCreateThreadDelay);
-	//EventWaitBeginThreadCheck(LoopMax, &EventWaitBeginThreadFuncDelay, &EventWaitBeginThreadDelay);
+
+	printf("LoopWaitCreateThreadCheck Run \n");
+	LoopWaitCreateThreadCheck(10, &LoopWaitCreateThreadFuncDelay, &LoopWaitCreateThreadDelay);
+
+	printf("LoopWaitBeginThreadCheck Run \n");
+	LoopWaitBeginThreadCheck(10, &LoopWaitBeginThreadFuncDelay, &LoopWaitBeginThreadDelay);
+
+	printf("EventWaitCreateThreadCheck Run \n");
+	EventWaitCreateThreadCheck(10, &EventWaitCreateThreadFuncDelay, &EventWaitCreateThreadDelay);
+
+	printf("EventWaitBeginThreadCheck Run \n");
+	EventWaitBeginThreadCheck(10, &EventWaitBeginThreadFuncDelay, &EventWaitBeginThreadDelay);
+
+	printf("microThreadCheck Run \n");
 	microThreadCheck(LoopMax, &microThreadFuncDelay, &microThreadDelay);
+
+	printf("microThreadConcurrentQueueCheck Run \n");
 	microThreadConcurrentQueueCheck(LoopMax, &microThreadConcurrentQueueFuncDelay, &microThreadConcurrentQueueDelay);
+
+	printf("ThreadPoolCheck Run \n");
 	ThreadPoolCheck(LoopMax, &ThreadPoolFuncDelay, &ThreadPoolDelay);
+
+	printf("============================Result====================================\n");
 
 	printf("LoopDelay | Func : %lld | Calc : %lld | \n", LoopFuncDelay, LoopDelay);
 	printf("LoopWaitCreateThreadDelay | Func : %lld | Calc : %lld | \n", LoopWaitCreateThreadFuncDelay, LoopWaitCreateThreadDelay);
@@ -37,5 +54,6 @@ int main()
 	printf("EventWaitCreateThreadDelay | Func : %lld | Calc : %lld | \n", EventWaitCreateThreadFuncDelay, EventWaitCreateThreadDelay);
 	printf("EventWaitBeginThreadDelay | Func : %lld | Calc : %lld | \n", EventWaitBeginThreadFuncDelay, EventWaitBeginThreadDelay);
 	printf("microThreadDelay | Func : %lld | Calc : %lld | \n", microThreadFuncDelay, microThreadDelay);
+	printf("microThreadConcurrentQueueCheck | Func : %lld | Calc : %lld | \n", microThreadConcurrentQueueFuncDelay, microThreadConcurrentQueueDelay);
 	printf("ThreadPoolDelay | Func : %lld | Calc : %lld | \n", ThreadPoolFuncDelay, ThreadPoolDelay);
 }

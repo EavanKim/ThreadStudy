@@ -1,5 +1,7 @@
 #pragma once
 
+volatile long microRunLive = 0;
+
 struct Param_microThread
 {
 	void(*m_func)(volatile long*);
@@ -20,11 +22,10 @@ public:
 	{
 		m_criticalSection = new CRITICAL_SECTION();
 		InitializeCriticalSection(m_criticalSection);
-		InterlockedExchange(&Run_Live, 1);
+		InterlockedExchange(&microRunLive, 1);
 		Param_microThreadMain* createParam = new Param_microThreadMain();
 		createParam->m_criticalSection = m_criticalSection;
 		createParam->m_funcqueue = &m_funcqueue;
-		createParam->Run_Live = &Run_Live;
 		Thread = (HANDLE)_beginthread(Run, 0, createParam);
 	}
 
@@ -39,7 +40,7 @@ public:
 	{
 		Param_microThreadMain* MainControlValue = (Param_microThreadMain*)_param;
 
-		while (1 == (*MainControlValue->Run_Live))
+		while (1 == microRunLive)
 		{
 			if (!MainControlValue->m_funcqueue->empty())
 			{
@@ -70,7 +71,7 @@ public:
 
 	void StopJoin()
 	{
-		InterlockedExchange(&Run_Live, 0);
+		InterlockedExchange(&microRunLive, 0);
 		WaitForSingleObject(Thread, INFINITE);
 	}
 
@@ -106,23 +107,22 @@ class ConcurrentmicroThread
 public:
 	ConcurrentmicroThread()
 	{
-		InterlockedExchange(&Run_Live, 1);
+		InterlockedExchange(&microRunLive, 1);
 		Param_ConcurrentmicroThreadMain* createParam = new Param_ConcurrentmicroThreadMain();
 		createParam->m_funcqueue = &m_funcqueue;
-		createParam->Run_Live = &Run_Live;
-		Thread = (HANDLE)_beginthread(microThread::Run, 0, createParam);
+		Thread = (HANDLE)_beginthread(ConcurrentmicroThread::Run, 0, createParam);
 	}
 
 	~ConcurrentmicroThread()
 	{
-		CloseHandle(Thread);
+		//CloseHandle(Thread);
 	}
 
 	static void Run(void* _param)
 	{
 		Param_ConcurrentmicroThreadMain* MainControlValue = (Param_ConcurrentmicroThreadMain*)_param;
 
-		while (1 == (*MainControlValue->Run_Live))
+		while (1 == microRunLive)
 		{
 			Param_microThread* RunTarget = nullptr;
 
@@ -148,7 +148,7 @@ public:
 
 	void StopJoin()
 	{
-		InterlockedExchange(&Run_Live, 0);
+		InterlockedExchange(&microRunLive, 0);
 		WaitForSingleObject(Thread, INFINITE);
 	}
 
@@ -166,7 +166,6 @@ public:
 	}
 
 	concurrency::concurrent_queue<Param_microThread*> m_funcqueue;
-	volatile long Run_Live = 0;
 	HANDLE Thread = INVALID_HANDLE_VALUE;
 };
 
