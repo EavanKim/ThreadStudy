@@ -11,7 +11,6 @@ DWORD EventWaitIncrease(LPVOID _param)
 	EventWaitThreadParameter* Parse = (EventWaitThreadParameter*)_param;
 
 	WaitForSingleObject(Parse->Event, INFINITE);
-	CloseHandle(Parse->Event);
 
 	InterlockedAdd(Parse->CalcValue, 1);
 
@@ -68,7 +67,7 @@ public:
 	~EventWaitBeginThreadControl()
 	{
 		WaitForSingleObject(Thread, INFINITE);
-		CloseHandle(Thread);
+		//CloseHandle(Thread);
 		Thread = INVALID_HANDLE_VALUE;
 	}
 

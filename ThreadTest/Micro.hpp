@@ -30,7 +30,7 @@ public:
 
 	~microThread()
 	{
-		CloseHandle(Thread);
+		//CloseHandle(Thread); //beginThread´Â CloseHandle ¾ÈµÊ
 		DeleteCriticalSection(m_criticalSection);
 		delete m_criticalSection;
 	}

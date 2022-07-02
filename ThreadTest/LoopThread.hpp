@@ -83,12 +83,16 @@ public:
 		Param->Enter = _enter;
 		Param->CalcValue = (volatile long*)_Target;
 		Thread = (HANDLE)_beginthread(LoopWaitBeginIncrease, 0, Param);
+		if ((INVALID_HANDLE_VALUE == Thread) || (0 == Thread))
+		{
+			throw - 1;
+		}
 	}
 
 	~LoopWaitBeginThreadControl()
 	{
 		WaitForSingleObject(Thread, INFINITE);
-		CloseHandle(Thread);
+		//CloseHandle(Thread);
 		Thread = INVALID_HANDLE_VALUE;
 	}
 

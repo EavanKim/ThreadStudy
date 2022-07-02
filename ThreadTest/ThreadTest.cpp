@@ -23,10 +23,10 @@ int main()
 	int LoopMax = 10000;
 
 	LoopCheck(LoopMax, &LoopFuncDelay, &LoopDelay);
-	LoopWaitCreateThreadCheck(100, &LoopWaitCreateThreadFuncDelay, &LoopWaitCreateThreadDelay);
-	LoopWaitBeginThreadCheck(100, &LoopWaitBeginThreadFuncDelay, &LoopWaitBeginThreadDelay);
-	EventWaitCreateThreadCheck(LoopMax, &EventWaitCreateThreadFuncDelay, &EventWaitCreateThreadDelay);
-	EventWaitBeginThreadCheck(LoopMax, &EventWaitBeginThreadFuncDelay, &EventWaitBeginThreadDelay);
+	//LoopWaitCreateThreadCheck(10, &LoopWaitCreateThreadFuncDelay, &LoopWaitCreateThreadDelay);
+	//LoopWaitBeginThreadCheck(10, &LoopWaitBeginThreadFuncDelay, &LoopWaitBeginThreadDelay);
+	//EventWaitCreateThreadCheck(LoopMax, &EventWaitCreateThreadFuncDelay, &EventWaitCreateThreadDelay);
+	//EventWaitBeginThreadCheck(LoopMax, &EventWaitBeginThreadFuncDelay, &EventWaitBeginThreadDelay);
 	microThreadCheck(LoopMax, &microThreadFuncDelay, &microThreadDelay);
 	microThreadConcurrentQueueCheck(LoopMax, &microThreadConcurrentQueueFuncDelay, &microThreadConcurrentQueueDelay);
 	ThreadPoolCheck(LoopMax, &ThreadPoolFuncDelay, &ThreadPoolDelay);
