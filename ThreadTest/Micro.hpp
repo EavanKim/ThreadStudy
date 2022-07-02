@@ -31,7 +31,6 @@ public:
 
 	~microThread()
 	{
-		//CloseHandle(Thread); //beginThread´Â CloseHandle ¾ÈµÊ
 		DeleteCriticalSection(m_criticalSection);
 		delete m_criticalSection;
 	}
@@ -44,8 +43,8 @@ public:
 		{
 			if (!MainControlValue->m_funcqueue->empty())
 			{
-				Param_microThread* GetFirst = MainControlValue->m_funcqueue->front();
 				EnterCriticalSection(MainControlValue->m_criticalSection);
+				Param_microThread* GetFirst = MainControlValue->m_funcqueue->front();
 				GetFirst->m_func(GetFirst->param);
 				MainControlValue->m_funcqueue->pop();
 				LeaveCriticalSection(MainControlValue->m_criticalSection);
@@ -56,8 +55,8 @@ public:
 
 		while (!MainControlValue->m_funcqueue->empty())
 		{
-			Param_microThread* GetFirst = MainControlValue->m_funcqueue->front();
 			EnterCriticalSection(MainControlValue->m_criticalSection);
+			Param_microThread* GetFirst = MainControlValue->m_funcqueue->front();
 			GetFirst->m_func(GetFirst->param);
 			MainControlValue->m_funcqueue->pop();
 			LeaveCriticalSection(MainControlValue->m_criticalSection);
@@ -115,7 +114,6 @@ public:
 
 	~ConcurrentmicroThread()
 	{
-		//CloseHandle(Thread);
 	}
 
 	static void Run(void* _param)
@@ -169,7 +167,7 @@ public:
 	HANDLE Thread = INVALID_HANDLE_VALUE;
 };
 
-void microThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
+volatile long microThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
 {
 	TimeChecker Func(FuncTimeDelay);
 
@@ -185,9 +183,11 @@ void microThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay
 	}
 
 	delete Instance;
+
+	return Value;
 }
 
-void microThreadConcurrentQueueCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
+volatile long microThreadConcurrentQueueCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
 {
 	TimeChecker Func(FuncTimeDelay);
 
@@ -203,4 +203,6 @@ void microThreadConcurrentQueueCheck(int _loopMax, uint64_t* FuncTimeDelay, uint
 	}
 
 	delete Instance;
+
+	return Value;
 }

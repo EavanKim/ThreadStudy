@@ -92,7 +92,6 @@ public:
 	~LoopWaitBeginThreadControl()
 	{
 		WaitForSingleObject(Thread, INFINITE);
-		//CloseHandle(Thread);
 		Thread = INVALID_HANDLE_VALUE;
 	}
 
@@ -101,23 +100,7 @@ public:
 	LPVOID Parameter = nullptr;
 };
 
-void LoopCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
-{
-	TimeChecker Func(FuncTimeDelay);
-
-	volatile long CalcValue = 0;
-	{
-		TimeChecker Calc(TimeDelay);
-
-		for (int loop = 0; 10000 > loop; ++loop)
-		{
-			CalcValue += 1;
-		}
-	}
-
-}
-
-void LoopWaitCreateThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
+volatile long LoopWaitCreateThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
 {
 	TimeChecker Func(FuncTimeDelay);
 	volatile long Thread_Value = 0;
@@ -136,7 +119,7 @@ void LoopWaitCreateThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* 
 	{
 		TimeChecker Calc(TimeDelay);
 		InterlockedExchange(&Thread_Enter, 1);
-		while (InterlockedCompareExchange(&Thread_Value, -1, _loopMax) != _loopMax) {};
+		while (InterlockedCompareExchange(&Thread_Value, _loopMax, _loopMax) != _loopMax) {};
 	}
 
 	for (int loop = 0; threads.size() > loop; ++loop)
@@ -146,9 +129,10 @@ void LoopWaitCreateThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* 
 
 	InterlockedExchange(&Thread_Live, 0);
 	threads.clear();
+	return Thread_Value;
 }
 
-void LoopWaitBeginThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
+volatile long LoopWaitBeginThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
 {
 	TimeChecker Func(FuncTimeDelay);
 	volatile long Thread_Value = 0;
@@ -167,7 +151,7 @@ void LoopWaitBeginThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* T
 	{
 		TimeChecker Calc(TimeDelay);
 		InterlockedExchange(&Thread_Enter, 1);
-		while (InterlockedCompareExchange(&Thread_Value, -1, _loopMax) != _loopMax) {};
+		while (InterlockedCompareExchange(&Thread_Value, _loopMax, _loopMax) != _loopMax) {};
 	}
 
 	for (int loop = 0; threads.size() > loop; ++loop)
@@ -177,4 +161,5 @@ void LoopWaitBeginThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* T
 
 	InterlockedExchange(&Thread_Live, 0);
 	threads.clear();
+	return Thread_Value;
 }

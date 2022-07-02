@@ -23,30 +23,30 @@ int main()
 	int LoopMax = 10000;
 
 	printf("LoopDelay Run \n");
-	LoopCheck(LoopMax, &LoopFuncDelay, &LoopDelay);
+	printf("Result : %d \n", LoopCheck(LoopMax, &LoopFuncDelay, &LoopDelay));
 
 	printf("LoopWaitCreateThreadCheck Run \n");
-	LoopWaitCreateThreadCheck(10, &LoopWaitCreateThreadFuncDelay, &LoopWaitCreateThreadDelay);
+	printf("Result : %d \n", LoopWaitCreateThreadCheck(LoopMax / 10, &LoopWaitCreateThreadFuncDelay, &LoopWaitCreateThreadDelay));
 
 	printf("LoopWaitBeginThreadCheck Run \n");
-	LoopWaitBeginThreadCheck(10, &LoopWaitBeginThreadFuncDelay, &LoopWaitBeginThreadDelay);
+	printf("Result : %d \n", LoopWaitBeginThreadCheck(LoopMax / 10, &LoopWaitBeginThreadFuncDelay, &LoopWaitBeginThreadDelay));
 
 	printf("EventWaitCreateThreadCheck Run \n");
-	EventWaitCreateThreadCheck(10, &EventWaitCreateThreadFuncDelay, &EventWaitCreateThreadDelay);
+	printf("Result : %d \n", EventWaitCreateThreadCheck(LoopMax / 10, &EventWaitCreateThreadFuncDelay, &EventWaitCreateThreadDelay));
 
 	printf("EventWaitBeginThreadCheck Run \n");
-	EventWaitBeginThreadCheck(10, &EventWaitBeginThreadFuncDelay, &EventWaitBeginThreadDelay);
+	printf("Result : %d \n", EventWaitBeginThreadCheck(LoopMax / 10, &EventWaitBeginThreadFuncDelay, &EventWaitBeginThreadDelay));
 
 	printf("microThreadCheck Run \n");
-	microThreadCheck(LoopMax, &microThreadFuncDelay, &microThreadDelay);
+	printf("Result : %d \n", microThreadCheck(LoopMax, &microThreadFuncDelay, &microThreadDelay));
 
 	printf("microThreadConcurrentQueueCheck Run \n");
-	microThreadConcurrentQueueCheck(LoopMax, &microThreadConcurrentQueueFuncDelay, &microThreadConcurrentQueueDelay);
+	printf("Result : %d \n", microThreadConcurrentQueueCheck(LoopMax, &microThreadConcurrentQueueFuncDelay, &microThreadConcurrentQueueDelay));
 
 	printf("ThreadPoolCheck Run \n");
-	ThreadPoolCheck(LoopMax, &ThreadPoolFuncDelay, &ThreadPoolDelay);
+	printf("Result : %d \n", ThreadPoolCheck(LoopMax, &ThreadPoolFuncDelay, &ThreadPoolDelay));
 
-	printf("============================Result====================================\n");
+	printf("============================DelayResult==================================== \n");
 
 	printf("LoopDelay | Func : %lld | Calc : %lld | \n", LoopFuncDelay, LoopDelay);
 	printf("LoopWaitCreateThreadDelay | Func : %lld | Calc : %lld | \n", LoopWaitCreateThreadFuncDelay, LoopWaitCreateThreadDelay);

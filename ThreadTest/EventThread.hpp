@@ -67,7 +67,6 @@ public:
 	~EventWaitBeginThreadControl()
 	{
 		WaitForSingleObject(Thread, INFINITE);
-		//CloseHandle(Thread);
 		Thread = INVALID_HANDLE_VALUE;
 	}
 
@@ -76,7 +75,7 @@ public:
 	LPVOID Parameter = nullptr;
 };
 
-void EventWaitCreateThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
+volatile long EventWaitCreateThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
 {
 	TimeChecker Func(FuncTimeDelay);
 	HANDLE Event = CreateEvent(NULL, TRUE, FALSE, L"EventWaitCreateThread");
@@ -94,7 +93,7 @@ void EventWaitCreateThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t*
 	{
 		TimeChecker Calc(TimeDelay);
 		SetEvent(Event);
-		while (InterlockedCompareExchange(&Thread_Value, -1, _loopMax) != _loopMax) {};
+		while (InterlockedCompareExchange(&Thread_Value, _loopMax, _loopMax) != _loopMax) {};
 	}
 
 	for (int loop = 0; threads.size() > loop; ++loop)
@@ -104,9 +103,11 @@ void EventWaitCreateThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t*
 
 	CloseHandle(Event);
 	threads.clear();
+
+	return Thread_Value;
 }
 
-void EventWaitBeginThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
+volatile long EventWaitBeginThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
 {
 	TimeChecker Func(FuncTimeDelay);
 	HANDLE Event = CreateEvent(NULL, TRUE, FALSE, L"EventWaitCreateThread");
@@ -124,7 +125,7 @@ void EventWaitBeginThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* 
 	{
 		TimeChecker Calc(TimeDelay);
 		SetEvent(Event);
-		while (InterlockedCompareExchange(&Thread_Value, -1, _loopMax) != _loopMax) {};
+		while (InterlockedCompareExchange(&Thread_Value, _loopMax, _loopMax) != _loopMax) {};
 	}
 
 	for (int loop = 0; threads.size() > loop; ++loop)
@@ -134,4 +135,6 @@ void EventWaitBeginThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* 
 
 	CloseHandle(Event);
 	threads.clear();
+
+	return Thread_Value;
 }
