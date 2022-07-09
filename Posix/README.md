@@ -36,9 +36,9 @@ pthread_create(): thread 를 만들어주는 함수.
 #include <pthread.h>
 
 int pthread_create(pthread_t *restrict thread,
-									const pthread_attr_t *restrict attr,
-									void *(*start_routine)(void *),
-									void *restrict arg);
+				const pthread_attr_t *restrict attr,
+				void *(*start_routine)(void *),
+				void *restrict arg);
 ```
 
 - pthread_t *thread
