@@ -49,6 +49,64 @@ void LoopWaitBeginIncrease(void* _param)
 	return;
 }
 
+// for STL Thread
+class LoopWait_stl_ThreadControl
+{
+public:
+	LoopWait_stl_ThreadControl(volatile long* _liveControl, volatile long* _enter, volatile long* _Target)
+	{
+		LoopWaitThreadParameter* Param = new LoopWaitThreadParameter();
+		Param->LiveControl = _liveControl;
+		Param->Enter = _enter;
+		Param->CalcValue = (volatile long*)_Target;
+
+		// 01: async를 이용하여 비동기로 콜러 실행. std::launch::async 옵션을 이용하여 즉시 실행.
+		_f = std::async(std::launch::async, LoopWaitIncrease, Param);
+	}
+
+	~LoopWait_stl_ThreadControl()
+	{
+		// 02. feature<...>.wait()을 이용하여 콜러 실행이 완료 될 때까지 대기
+		_f.wait();
+	}
+
+	std::future<DWORD> _f;
+	LPVOID Parameter = nullptr;
+};
+
+
+volatile long LoopWaitStlThreadCheck(int _loopMax, uint64_t* FuncTimeDelay, uint64_t* TimeDelay)
+{
+	TimeChecker Func(FuncTimeDelay);
+	volatile long Thread_Value = 0;
+	volatile long Thread_Live = 1;
+	volatile long Thread_Enter = 0;
+
+	std::vector<LoopWait_stl_ThreadControl*> threads;
+	threads.clear();
+
+	for (int loop = 0; _loopMax > loop; ++loop)
+	{
+		DWORD dwThreadID = 0;
+		threads.push_back(new LoopWait_stl_ThreadControl(&Thread_Live, &Thread_Enter, &Thread_Value));
+	}
+
+	{
+		TimeChecker Calc(TimeDelay);
+		InterlockedExchange(&Thread_Enter, 1);
+		while (InterlockedCompareExchange(&Thread_Value, _loopMax, _loopMax) != _loopMax) {};
+	}
+
+	for (int loop = 0; threads.size() > loop; ++loop)
+	{
+		delete threads[loop];
+	}
+
+	InterlockedExchange(&Thread_Live, 0);
+	threads.clear();
+	return Thread_Value;
+}
+
 class LoopWaitThreadControl
 {
 public:

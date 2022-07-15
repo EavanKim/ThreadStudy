@@ -5,6 +5,7 @@
 #include <vector>
 #include <queue>
 #include <concurrent_queue.h>
+#include <future>
 
 #include "Util.hpp"
 
